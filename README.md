@@ -1,1 +1,2 @@
-# LOLIVIS: League of Legends Match Data Analysis
+# LOLIVIS: League of Legends Match Data Visualization
+
