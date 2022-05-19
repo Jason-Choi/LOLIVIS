@@ -3,8 +3,19 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
+  background-color: #212121;
+  height : 100vh;
+  color : white;
 }
 
 .section { 
-  min-height: 800px;
+  min-height: 900px;
+}
+
+footer { 
+  color : white;
+}
+
+text { 
+  color : white
 }

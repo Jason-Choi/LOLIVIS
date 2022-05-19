@@ -4,8 +4,9 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import { Main } from "./components/Main";
-import { Correlations } from "./components/Correlations";
+import { SideBar } from "./components/SideBar";
 import { csv } from "d3";
+import { Correlations } from "./types";
 
 
 async function initialize(){
@@ -38,8 +39,8 @@ async function initialize(){
 
 
     const main = new Main("mainVis", matchData);
-    const redCorr = new Correlations("red" , correlationData, main);
-    const blueCorr = new Correlations("blue", correlationData, main);
+    const redCorr = new SideBar("red" , correlationData, main);
+    const blueCorr = new SideBar("blue", correlationData, main);
 }
 
 initialize();
