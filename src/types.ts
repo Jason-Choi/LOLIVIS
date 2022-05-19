@@ -50,3 +50,6 @@ export interface data {
     redTotalHeal: number;
     redObjectDamageDealt: number;
 }
+export interface correlations {
+    [key: string]: number | boolean | string;
+}
