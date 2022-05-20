@@ -1,4 +1,4 @@
-import { axisBottom, axisLeft, bin, format, interpolateYlOrRd, max, scaleBand, scaleLinear, schemeYlOrRd, Selection } from "d3"
+import { axisBottom, axisLeft, format, interpolateYlOrRd, scaleBand, Selection } from "d3"
 
 export default class Heatmap {
     selection: Selection<any, any, any, any>
@@ -38,7 +38,6 @@ export default class Heatmap {
             .domain(["False", "True"])
             .range([this.height - this.margin * 2, 0])
 
-
         // x axis
         this.selection
             .append("g")
@@ -54,40 +53,30 @@ export default class Heatmap {
             .call(axisLeft(y))
 
         // bars
-        const binded = this.selection
-            .selectAll("rect")
-            .data(this.values)
+        const binded = this.selection.selectAll("rect").data(this.values)
 
         binded
             .join("rect")
             .attr("class", "bin")
-            .attr("x", (_, i) => (x(i % 2 === 0 ? "False" : "True") as number + this.margin))
-            .attr("y", (_, i) => (y(i < 2 ? "False" : "True") as number + this.margin))
+            .attr("x", (_, i) => (x(i % 2 === 0 ? "False" : "True") as number) + this.margin)
+            .attr("y", (_, i) => (y(i < 2 ? "False" : "True") as number) + this.margin)
             .attr("width", x.bandwidth())
             .attr("height", y.bandwidth())
-            .attr("fill", d => interpolateYlOrRd(d / this.valueLength))
+            .attr("fill", (d) => interpolateYlOrRd(d / this.valueLength))
 
         binded
             .join("text")
-            .attr("x", (_, i) => (x(i % 2 === 0 ? "False" : "True") as number + this.margin))
-            .attr("y", (_, i) => (y(i < 2 ? "False" : "True") as number + this.margin))
+            .attr("x", (_, i) => (x(i % 2 === 0 ? "False" : "True") as number) + this.margin)
+            .attr("y", (_, i) => (y(i < 2 ? "False" : "True") as number) + this.margin)
             .attr("dx", x.bandwidth() / 2)
             .attr("dy", y.bandwidth() / 2)
             .attr("text-anchor", "middle")
-            .text(d => (format(".1f")((d / this.valueLength) * 100) + "%"))
+            .text((d) => format(".1f")((d / this.valueLength) * 100) + "%")
 
-        this.selection
-            .selectAll("text")
-            .attr("font-size", 18)
-            .attr("font-weight", 600)
+        this.selection.selectAll("text").attr("font-size", 18).attr("font-weight", 600)
 
-        this.selection.select("#axis-x")
-            .selectAll("text")
-            .attr("dy", "1.5em")
-        
-        this.selection.select("#axis-y")
-            .selectAll("text")
-            .attr("dx", "-1em")
+        this.selection.select("#axis-x").selectAll("text").attr("dy", "1.5em")
 
+        this.selection.select("#axis-y").selectAll("text").attr("dx", "-1em")
     }
 }

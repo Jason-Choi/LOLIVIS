@@ -10,8 +10,6 @@ const height = 700
 
 const margin = 80
 
-
-
 export class Main {
     id: string
     selection: Selection<any, any, any, any>
@@ -58,10 +56,13 @@ export class Main {
                 if (setValues.filter((value) => value === 2).length === 2) {
                     new Heatmap(this.selection, values, width, height, margin)
                     console.log("BB")
-
                 } else if (setValues.filter((value) => value === 2).length === 1) {
-                    const tmpValues = [values[setValues.indexOf(2)], values[1 - setValues.indexOf(2)]]
+                    const tmpValues = [
+                        values[setValues.indexOf(2)],
+                        values[1 - setValues.indexOf(2)],
+                    ]
                     new HistogramBQ(this.selection, tmpValues, width, height, margin)
+                    console.log("BQ")
                 } else {
                     new Scatterplot(this.selection, values, width, height, margin)
                     console.log("QQ")
@@ -73,7 +74,6 @@ export class Main {
                 } else {
                     new Histogram(this.selection, values[0], width, height, margin)
                     console.log("Q")
-                    
                 }
             }
         }
@@ -102,6 +102,6 @@ export class Main {
     }
 
     getValues(attributeName: string) {
-        return this.datas.map((data) => data[attributeName]).map(d => Number(d))
+        return this.datas.map((data) => data[attributeName]).map((d) => Number(d))
     }
 }

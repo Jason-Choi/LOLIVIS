@@ -1,4 +1,4 @@
-import { axisBottom, axisLeft, bin, max, scaleLinear, schemeCategory10, Selection } from "d3"
+import { axisBottom, axisLeft, max, scaleLinear, Selection, schemeCategory10 } from "d3"
 
 export default class Scatterplot {
     selection: Selection<any, any, any, any>
@@ -22,7 +22,7 @@ export default class Scatterplot {
         this.width = width
         this.height = height
         this.margin = margin
-        this.color = ["#C79B3B", "#3c2e11"]
+        this.color = [schemeCategory10[1], schemeCategory10[5]]
         this.render()
     }
 
@@ -55,7 +55,7 @@ export default class Scatterplot {
             .attr("class", "dot")
             .attr("cx", (d) => x(d) + this.margin)
             .attr("cy", (d) => y(this.valueY[this.valueX.indexOf(d)]) + this.margin)
-            .attr("r", 1)
+            .attr("r", 2)
             .attr("fill", this.color[0])
     }
 }

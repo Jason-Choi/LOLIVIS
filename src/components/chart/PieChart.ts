@@ -1,4 +1,4 @@
-import { arc, count, format, interpolateYlOrBr, pie, schemeCategory10, Selection } from "d3"
+import { arc, format, pie, schemeCategory10, Selection } from "d3"
 
 export default class PieChart {
     selection: Selection<any, any, any, any>
@@ -20,11 +20,10 @@ export default class PieChart {
         const numFalse = values.reduce((acc, cur) => acc + Number(cur === 0), 0)
         this.values = [numFalse, values.length - numFalse]
         this.valueLength = values.length
-        console.log(this.values)
         this.width = width
         this.height = height
         this.margin = margin
-        this.color = ["#C79B3B", "#3c2e11"]
+        this.color = [schemeCategory10[1], schemeCategory10[5]]
         this.render()
     }
 
@@ -38,7 +37,7 @@ export default class PieChart {
             .data(pieCalc(this.values))
             .join("g")
             .attr("class", "pie")
-            .attr("transform", `translate(${this.width / 2 }, ${this.width / 2 - this.margin})`)
+            .attr("transform", `translate(${this.width / 2}, ${this.width / 2 - this.margin})`)
 
         binded
             .append("path")
