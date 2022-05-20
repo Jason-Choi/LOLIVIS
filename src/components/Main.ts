@@ -3,6 +3,7 @@ import PieChart from "./chart/PieChart"
 import Histogram from "./chart/Histogram"
 import Scatterplot from "./chart/Scatterplot"
 import Heatmap from "./chart/Heatmap"
+import HistogramBQ from "./chart/HistogramBQ"
 
 const width = 880
 const height = 700
@@ -59,7 +60,8 @@ export class Main {
                     console.log("BB")
 
                 } else if (setValues.filter((value) => value === 2).length === 1) {
-                    console.log("QB")
+                    const tmpValues = [values[setValues.indexOf(2)], values[1 - setValues.indexOf(2)]]
+                    new HistogramBQ(this.selection, tmpValues, width, height, margin)
                 } else {
                     new Scatterplot(this.selection, values, width, height, margin)
                     console.log("QQ")
