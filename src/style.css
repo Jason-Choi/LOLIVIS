@@ -23,5 +23,9 @@ footer {
 }
 
 text { 
-  color : white
+  color : white;
+}
+
+.nav-item { 
+  color : white;  
 }

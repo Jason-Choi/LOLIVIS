@@ -2,18 +2,18 @@ import { DSVRowArray, Selection, select } from "d3"
 import PieChart from "./chart/PieChart"
 import Histogram from "./chart/Histogram"
 import Scatterplot from "./chart/Scatterplot"
+import Heatmap from "./chart/Heatmap"
 
 const width = 880
 const height = 700
 
-const margin = 40
+const margin = 80
 
 
 
 export class Main {
     id: string
     selection: Selection<any, any, any, any>
-    margins = { top: 30, bottom: 30, left: 30, right: 30 }
     datas: DSVRowArray<string>
     selectedAttributes: string[] = []
 
@@ -53,10 +53,11 @@ export class Main {
             this.selection.selectAll("*").remove()
             const values = this.selectedAttributes.map((attr) => this.getValues(attr))
             const setValues = values.map((value) => new Set(value).size)
-            console.log(values, setValues)
             if (values.length === 2) {
                 if (setValues.filter((value) => value === 2).length === 2) {
+                    new Heatmap(this.selection, values, width, height, margin)
                     console.log("BB")
+
                 } else if (setValues.filter((value) => value === 2).length === 1) {
                     console.log("QB")
                 } else {

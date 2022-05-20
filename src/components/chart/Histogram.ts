@@ -22,7 +22,7 @@ export default class Histogram {
         this.width = width
         this.height = height
         this.margin = margin
-        this.color = schemeCategory10
+        this.color = ["#C79B3B", "#3c2e11"]
         this.render()
     }
 
@@ -30,7 +30,7 @@ export default class Histogram {
         const x = scaleLinear()
             .domain([0, max(this.values, (d) => d) as number])
             .range([0, this.width - this.margin * 2])
-
+    
         const his = bin()
             .value((d) => d)
             .domain(x.domain() as [number, number])

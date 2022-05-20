@@ -77,14 +77,6 @@ export class SideBar {
                     select(`#rect-${d.name}`).attr("stroke", "none")
                 }
             })
-        // .on("mouseover", (_, d) => {
-        //     const selection = select(`#rect-${d.name}`)
-        //     selection.attr("stroke", "white")
-        // })
-        // .on("mouseout",(_, d)  =>{
-        //     const selection = select(`#rect-${d.name}`)
-        //     selection.attr("stroke", "none")
-        // })
 
         this.selection
             .selectAll(".corr")

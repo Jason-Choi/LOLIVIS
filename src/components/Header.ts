@@ -7,7 +7,7 @@ export default function Header(): string {
             </div>
             <ul class="nav nav-pills">
                 <i class="bi bi-box-arrow-in-right"></i>
-                <li class="nav-item"><a href="#" class="nav-link">Github</a></li>
+                <li class="nav-item"><a href="https://github.com/jason-choi/lolivis" style="color:white;font-weight:600;" class="nav-link">Github</a></li>
             </ul>
         </header>
     </div>

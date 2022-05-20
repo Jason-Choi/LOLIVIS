@@ -4,7 +4,6 @@ export default class Scatterplot {
     selection: Selection<any, any, any, any>
     valueX: number[]
     valueY: number[]
-    valueLength: number
     width: number
     height: number
     margin: number
@@ -23,7 +22,7 @@ export default class Scatterplot {
         this.width = width
         this.height = height
         this.margin = margin
-        this.color = schemeCategory10
+        this.color = ["#C79B3B", "#3c2e11"]
         this.render()
     }
 
@@ -56,7 +55,7 @@ export default class Scatterplot {
             .attr("class", "dot")
             .attr("cx", (d) => x(d) + this.margin)
             .attr("cy", (d) => y(this.valueY[this.valueX.indexOf(d)]) + this.margin)
-            .attr("r", 3)
+            .attr("r", 1)
             .attr("fill", this.color[0])
     }
 }

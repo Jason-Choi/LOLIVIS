@@ -1,4 +1,4 @@
-import { arc, count, format, pie, schemeCategory10, Selection } from "d3"
+import { arc, count, format, interpolateYlOrBr, pie, schemeCategory10, Selection } from "d3"
 
 export default class PieChart {
     selection: Selection<any, any, any, any>
@@ -24,7 +24,7 @@ export default class PieChart {
         this.width = width
         this.height = height
         this.margin = margin
-        this.color = schemeCategory10
+        this.color = ["#C79B3B", "#3c2e11"]
         this.render()
     }
 
@@ -32,13 +32,13 @@ export default class PieChart {
         const pieCalc = pie()
         const arcCalc = arc()
             .innerRadius(0)
-            .outerRadius((this.width - this.margin) / 4)
+            .outerRadius((this.width - this.margin) * 0.65 * 0.5)
         const binded = this.selection
             .selectAll(".pie")
             .data(pieCalc(this.values))
             .join("g")
             .attr("class", "pie")
-            .attr("transform", `translate(${this.width / 2}, ${this.width / 2})`)
+            .attr("transform", `translate(${this.width / 2 }, ${this.width / 2 - this.margin})`)
 
         binded
             .append("path")
@@ -51,6 +51,9 @@ export default class PieChart {
             .attr("transform", (d) => `translate(${arcCalc.centroid(d as any)})`)
             .attr("dy", ".35em")
             .attr("dx", "-1em")
+            .attr("font-size", 24)
+            .attr("fill", "white")
+            .attr("font-weight", 600)
             .text((d) => {
                 return `${format(".1f")((d.value / this.valueLength) * 100)}%`
             })
