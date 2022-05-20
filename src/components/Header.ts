@@ -1,5 +1,5 @@
-export default function Header() : string{
-    return /* html */`
+export default function Header(): string {
+    return /* html */ `
     <div class="container">
         <header class="d-flex flex-wrap justify-content-center py-3 mb-1">
             <div class="d-flex align-items-center mb-1 mb-md-0 me-md-auto">
@@ -11,5 +11,5 @@ export default function Header() : string{
             </ul>
         </header>
     </div>
-  `;
+  `
 }

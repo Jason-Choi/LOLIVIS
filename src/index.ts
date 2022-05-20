@@ -1,23 +1,19 @@
-import "./style.css";
-import "bootstrap/dist/css/bootstrap.min.css";
+import "./style.css"
+import "bootstrap/dist/css/bootstrap.min.css"
 
-import Header from "./components/Header";
-import Footer from "./components/Footer";
-import { Main } from "./components/Main";
-import { SideBar } from "./components/SideBar";
-import { csv } from "d3";
-import { Correlations } from "./types";
+import Header from "./components/Header"
+import Footer from "./components/Footer"
+import { Main } from "./components/Main"
+import { SideBar } from "./components/SideBar"
+import { csv } from "d3"
 
-
-async function initialize(){
-    const matchData = await csv(
-        "https://raw.githubusercontent.com/Jason-Choi/lol/master/data.csv"
-    )
+async function initialize() {
+    const matchData = await csv("https://raw.githubusercontent.com/Jason-Choi/lol/master/data.csv")
     const correlationData = await csv(
         "https://raw.githubusercontent.com/Jason-Choi/LOLIVIS/master/corr.csv"
     )
 
-    const app = document.querySelector<HTMLDivElement>("#app")!;
+    const app = document.querySelector<HTMLDivElement>("#app")!
     app.innerHTML =
         /* html */
         `  ${Header()}
@@ -35,12 +31,11 @@ async function initialize(){
             </div>
         </div> 
         ${Footer()}
-    `;
+    `
 
-
-    const main = new Main("mainVis", matchData);
-    const redCorr = new SideBar("red" , correlationData, main);
-    const blueCorr = new SideBar("blue", correlationData, main);
+    const main = new Main("mainVis", matchData)
+    const redCorr = new SideBar("red", correlationData, main)
+    const blueCorr = new SideBar("blue", correlationData, main)
 }
 
-initialize();
+initialize()
