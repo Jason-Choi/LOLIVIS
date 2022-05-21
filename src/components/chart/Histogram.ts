@@ -31,7 +31,7 @@ export default class Histogram {
         this.width = width
         this.height = height
         this.margin = margin
-        this.color = [schemeCategory10[1], schemeCategory10[5]]
+        this.color = [schemeCategory10[1], schemeCategory10[2]]
         this.render()
     }
 
@@ -85,6 +85,7 @@ export default class Histogram {
             .data(his(this.values))
             .join("rect")
             .attr("class", "bar")
+            .attr("opacity", 0.5)
             .attr(
                 "transform",
                 (d) => `translate(${x(d.x0 as number) + this.margin}, ${y(d.length) + this.margin})`

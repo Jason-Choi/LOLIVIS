@@ -18,12 +18,13 @@ export default class PieChart {
     ) {
         this.selection = selection
         const numFalse = values.reduce((acc, cur) => acc + Number(cur === 0), 0)
-        this.values = [numFalse, values.length - numFalse]
+        const numTrue = values.reduce((acc, cur) => acc + Number(cur === 1), 0)
+        this.values = [numFalse, numTrue]
         this.valueLength = values.length
         this.width = width
         this.height = height
         this.margin = margin
-        this.color = [schemeCategory10[1], schemeCategory10[5]]
+        this.color = [schemeCategory10[1], schemeCategory10[2]]
         this.render()
     }
 
@@ -43,6 +44,7 @@ export default class PieChart {
             .append("path")
             .attr("d", arcCalc as any)
             .attr("fill", (d, i) => this.color[i])
+            .attr("opacity", 0.5)
 
         binded
             .append("text")

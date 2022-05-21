@@ -1,19 +1,21 @@
-import { DSVRowArray, Selection, select } from "d3"
+import { DSVRowArray, Selection, select, schemeCategory10 } from "d3"
 import PieChart from "./chart/PieChart"
 import Histogram from "./chart/Histogram"
 import Scatterplot from "./chart/Scatterplot"
 import Heatmap from "./chart/Heatmap"
 import HistogramBQ from "./chart/HistogramBQ"
+import { Legends } from "./chart/Legend"
+import { camelCaseToWords } from "./SideBar"
 
 const width = 880
 const height = 700
-
 const margin = 80
 
 export class Main {
     id: string
     selection: Selection<any, any, any, any>
     datas: DSVRowArray<string>
+    colors: readonly string[] = [schemeCategory10[1], schemeCategory10[2]]
     selectedAttributes: string[] = []
 
     constructor(id: string, datas: DSVRowArray<string>) {
@@ -51,29 +53,37 @@ export class Main {
         } else {
             this.selection.selectAll("*").remove()
             const values = this.selectedAttributes.map((attr) => this.getValues(attr))
-            const setValues = values.map((value) => new Set(value).size)
+            const attributeTypes = getAttributeTypes(this.selectedAttributes)
+
             if (values.length === 2) {
-                if (setValues.filter((value) => value === 2).length === 2) {
+                if (attributeTypes == "BB") {
                     new Heatmap(this.selection, values, width, height, margin)
-                    console.log("BB")
-                } else if (setValues.filter((value) => value === 2).length === 1) {
+                } else if (attributeTypes == "BQ" || attributeTypes == "QB") {
                     const tmpValues = [
-                        values[setValues.indexOf(2)],
-                        values[1 - setValues.indexOf(2)],
+                        values[attributeTypes.indexOf("B")],
+                        values[attributeTypes.indexOf("Q")],
                     ]
                     new HistogramBQ(this.selection, tmpValues, width, height, margin)
-                    console.log("BQ")
+                    new Legends(this.selection, this, [
+                        `${camelCaseToWords(
+                            this.selectedAttributes[attributeTypes.indexOf("B")]
+                        )} False`,
+                        `${camelCaseToWords(
+                            this.selectedAttributes[attributeTypes.indexOf("B")]
+                        )} True`,
+                    ])
                 } else {
                     new Scatterplot(this.selection, values, width, height, margin)
-                    console.log("QQ")
                 }
             } else {
-                if (setValues[0] == 2) {
+                if (attributeTypes == "B") {
                     new PieChart(this.selection, values[0], width, height, margin)
-                    console.log("B")
+                    new Legends(this.selection, this, [
+                        `${camelCaseToWords(this.selectedAttributes[0])} False`,
+                        `${camelCaseToWords(this.selectedAttributes[0])} True`,
+                    ])
                 } else {
                     new Histogram(this.selection, values[0], width, height, margin)
-                    console.log("Q")
                 }
             }
         }
@@ -87,7 +97,7 @@ export class Main {
             )
             result = "removed"
         } else {
-            if (this.selectedAttributes.length < 3) {
+            if (this.selectedAttributes.length < 2) {
                 this.selectedAttributes.push(attributeName)
                 result = "added"
             } else result = "none"
@@ -104,4 +114,10 @@ export class Main {
     getValues(attributeName: string) {
         return this.datas.map((data) => data[attributeName]).map((d) => Number(d))
     }
+}
+
+function getAttributeTypes(attributeNames: string[]) {
+    return attributeNames
+        .map((attr) => (attr.includes("Wins") || attr.includes("First") ? "B" : "Q"))
+        .join("")
 }

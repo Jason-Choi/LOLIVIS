@@ -24,7 +24,7 @@ export default class HistogramBQ {
         this.width = width
         this.height = height
         this.margin = margin
-        this.color = [schemeCategory10[1], schemeCategory10[5]]
+        this.color = [schemeCategory10[1], schemeCategory10[2]]
         this.render()
     }
 

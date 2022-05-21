@@ -22,7 +22,7 @@ export default class Scatterplot {
         this.width = width
         this.height = height
         this.margin = margin
-        this.color = [schemeCategory10[1], schemeCategory10[5]]
+        this.color = [schemeCategory10[1], schemeCategory10[2]]
         this.render()
     }
 
@@ -55,7 +55,10 @@ export default class Scatterplot {
             .attr("class", "dot")
             .attr("cx", (d) => x(d) + this.margin)
             .attr("cy", (d) => y(this.valueY[this.valueX.indexOf(d)]) + this.margin)
-            .attr("r", 2)
+            .attr("r", 3)
             .attr("fill", this.color[0])
+            .attr("opacity", 0.5)
+
+        
     }
 }

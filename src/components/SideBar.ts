@@ -19,11 +19,13 @@ const padding = 6
 const fontSize = 12
 
 // function that seperates camelCase to words
-function camelCaseToWords(str: string) {
-    const strs = str.replace(/([A-Z])/g, " $1").replace(/^./, function (str) {
+export function camelCaseToWords(str: string): string {
+    return str.replace(/([A-Z])/g, " $1").replace(/^./, function (str) {
         return str.toUpperCase()
     })
-    return strs.replace("Blue", "").replace("Red", "")
+}
+function formatSidebar(str: string) {
+    return camelCaseToWords(str).replace("Blue", "").replace("Red", "")
 }
 
 export class SideBar {
@@ -70,9 +72,10 @@ export class SideBar {
             .attr("fill", (d, _) => this.colorScheme(d.value))
             .on("click", (_, d) => {
                 const result = this.main.selectAttribute(d.name)
+                console.log(result)
                 if (result === "added") {
                     select(`#rect-${d.name}`).attr("stroke", "white")
-                } else if (result === "removed") {
+                } else {
                     select(`#rect-${d.name}`).attr("stroke", "none")
                 }
             })
@@ -86,7 +89,7 @@ export class SideBar {
             .attr("y", (_, i) => i * (this.boxHeight + padding) + this.boxHeight / 2)
             .attr("text-anchor", "start")
             .attr("dominant-baseline", "middle")
-            .text((d) => `${camelCaseToWords(d.name)}`)
+            .text((d) => `${formatSidebar(d.name)}`)
             .attr("font-size", fontSize)
             .attr("fill", "white")
             .attr("font-weight", 600)
