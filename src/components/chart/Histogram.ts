@@ -72,12 +72,14 @@ export default class Histogram {
                         (d) => `translate(${x(d as number) + (isOrdinal ? xWidth / 2 : 0)}, 0)`
                     )
             )
+            .call((g) => g.selectAll("text").attr("fill", "white").attr("font-size", "14px"))
 
         // y axis
         this.selection
             .append("g")
             .attr("transform", `translate(${this.margin}, ${this.margin})`)
             .call(axisLeft(y))
+            .call((g) => g.selectAll("text").attr("fill", "white").attr("font-size", "14px"))
 
         // bars
         this.selection

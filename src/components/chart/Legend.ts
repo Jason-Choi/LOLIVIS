@@ -29,7 +29,6 @@ export class Legends {
                     .selectAll("text")
                     .attr("fill", "white")
                     .attr("font-size", "18px")
-                    .attr("font-weight", "bold")
             )
             .call((g) => g.selectAll("rect").attr("opacity", 0.5))
     }
