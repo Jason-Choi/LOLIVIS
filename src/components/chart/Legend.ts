@@ -17,7 +17,6 @@ export class Legends {
 
         this.legend = legendColor().orient("vertical").shape("rect").scale(scale)
 
-        console.log(this.legend)
         this.render()
     }
 

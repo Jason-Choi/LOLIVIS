@@ -40,7 +40,7 @@ export default class HistogramBQ {
         const valueFalse = this.valuesQ.filter((d, i) => this.valuesB[i] === 0)
 
         const x = scaleLinear()
-            .domain([0, max([max(valueFalse) as number, max(valueTrue) as number]) as number])
+            .domain([0, max([...valueFalse, ...valueTrue]) as number])
             .range([0, this.size.width - this.size.margin * 2])
 
         const xTicks = x.ticks().filter(Number.isInteger)
@@ -50,11 +50,12 @@ export default class HistogramBQ {
             .domain(x.domain() as [number, number])
             .thresholds(xTicks)
 
+        const hisDatas = his(this.valuesQ)
+
         const y = scaleLinear()
-            .domain([0, max(his(this.valuesQ), d => d.length) as number])
+            .domain([0, max(hisDatas, d => d.length) as number])
             .range([this.size.height - this.size.margin * 2, 0])
 
-        const hisDatas = his(this.valuesQ)
         const xWidth = x(hisDatas[0].x1 as number) - x(hisDatas[0].x0 as number)
         const isOrdinal =
             new Set(this.valuesQ).size === hisDatas.length ||
@@ -110,10 +111,10 @@ export default class HistogramBQ {
             .attr("fill", "white")
             .text("# Games")
 
-        // True bars
+        // False bars
         this.selection
-            .selectAll(".barTrue")
-            .data(his(valueTrue))
+            .selectAll(".barFalse")
+            .data(his(valueFalse))
             .join("rect")
             .attr("class", "bar")
             .attr(
@@ -130,10 +131,10 @@ export default class HistogramBQ {
             .attr("fill", this.color[0])
             .attr("opacity", 0.6)
 
-        // False bars
+        // True bars
         this.selection
-            .selectAll(".barFalse")
-            .data(his(valueFalse))
+            .selectAll(".barTrue")
+            .data(his(valueTrue))
             .join("rect")
             .attr("class", "bar")
             .attr(

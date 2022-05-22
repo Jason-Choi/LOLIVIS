@@ -57,7 +57,6 @@ export class Main {
             if (attributeTypes == "BB") {
                 new Heatmap(this.selection, values, labels, size)
             } else if (attributeTypes == "BQ" || attributeTypes == "QB") {
-                console.log(attributeTypes)
                 const tmpValues = [
                     values[attributeTypes.indexOf("B")],
                     values[attributeTypes.indexOf("Q")],

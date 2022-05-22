@@ -72,7 +72,6 @@ export class SideBar {
             .attr("fill", (d, _) => this.colorScheme(d.value))
             .on("click", (_, d) => {
                 const result = this.main.selectAttribute(d.name)
-                console.log(result)
                 if (result === "added") {
                     select(`#rect-${d.name}`).attr("stroke", "white")
                 } else {

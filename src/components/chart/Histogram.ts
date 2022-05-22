@@ -56,7 +56,6 @@ export default class Histogram {
         const isOrdinal =
             new Set(this.values).size === hisDatas.length ||
             this.labels[0].includes("Inhibitor Kills")
-        console.log(this.labels)
 
         // x axis
         this.selection
