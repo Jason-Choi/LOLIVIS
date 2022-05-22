@@ -1,4 +1,5 @@
 import { DSVRowArray, schemeCategory10, select, Selection } from "d3"
+import { Size } from "../types"
 import Heatmap from "./chart/Heatmap"
 import Histogram from "./chart/Histogram"
 import HistogramBQ from "./chart/HistogramBQ"
@@ -8,9 +9,7 @@ import Scatterplot from "./chart/Scatterplot"
 import { Splash } from "./chart/Splash"
 import { camelCaseToWords } from "./SideBar"
 
-const width = 880
-const height = 700
-const margin = 80
+const size: Size = { width: 800, height: 900, margin: 80 }
 
 export class Main {
     id: string
@@ -23,8 +22,8 @@ export class Main {
         this.id = id
         this.selection = select("#" + id)
             .append("svg")
-            .attr("width", width)
-            .attr("height", height)
+            .attr("width", size.width)
+            .attr("height", size.height)
         this.datas = datas
         this.render()
     }
@@ -33,35 +32,41 @@ export class Main {
         this.selection.selectAll("*").remove()
         const values = this.selectedAttributes.map(attr => this.getValues(attr))
         const attributeTypes = getAttributeTypes(this.selectedAttributes)
+        const labels = this.selectedAttributes.map(attr => camelCaseToWords(attr))
 
         // Default Splash Screen
         if (this.selectedAttributes.length === 0) {
-            new Splash(this.selection, width, height, margin)
+            new Splash(this.selection, size)
         }
 
         // Select One Attribute
         else if (this.selectedAttributes.length === 1) {
             if (attributeTypes == "B") {
-                new PieChart(this.selection, values[0], width, height, margin)
+                new PieChart(this.selection, values[0], size)
                 new Legends(this.selection, this, [
                     `${camelCaseToWords(this.selectedAttributes[0])} False`,
                     `${camelCaseToWords(this.selectedAttributes[0])} True`,
                 ])
             } else {
-                new Histogram(this.selection, values[0], width, height, margin)
+                new Histogram(this.selection, values[0], labels, size)
             }
         }
 
         // Select Two Attributes
         else if (this.selectedAttributes.length === 2) {
             if (attributeTypes == "BB") {
-                new Heatmap(this.selection, values, width, height, margin)
+                new Heatmap(this.selection, values, labels, size)
             } else if (attributeTypes == "BQ" || attributeTypes == "QB") {
+                console.log(attributeTypes)
                 const tmpValues = [
                     values[attributeTypes.indexOf("B")],
                     values[attributeTypes.indexOf("Q")],
                 ]
-                new HistogramBQ(this.selection, tmpValues, width, height, margin)
+                const tmpLabels = [
+                    labels[attributeTypes.indexOf("B")],
+                    labels[attributeTypes.indexOf("Q")],
+                ]
+                new HistogramBQ(this.selection, tmpValues, tmpLabels, size)
                 new Legends(this.selection, this, [
                     `${camelCaseToWords(
                         this.selectedAttributes[attributeTypes.indexOf("B")]
@@ -71,7 +76,7 @@ export class Main {
                     )} True`,
                 ])
             } else {
-                new Scatterplot(this.selection, values, width, height, margin)
+                new Scatterplot(this.selection, values, labels, size)
             }
         }
     }

@@ -4,26 +4,16 @@ export default class PieChart {
     selection: Selection<any, any, any, any>
     values: number[]
     valueLength: number
-    width: number
-    height: number
-    margin: number
+    size: Size
     color: readonly string[]
 
-    constructor(
-        selection: Selection<any, any, any, any>,
-        values: number[],
-        width: number,
-        height: number,
-        margin: number
-    ) {
+    constructor(selection: Selection<any, any, any, any>, values: number[], size: Size) {
         this.selection = selection
         const numFalse = values.reduce((acc, cur) => acc + Number(cur === 0), 0)
         const numTrue = values.reduce((acc, cur) => acc + Number(cur === 1), 0)
         this.values = [numFalse, numTrue]
         this.valueLength = values.length
-        this.width = width
-        this.height = height
-        this.margin = margin
+        this.size = size
         this.color = [schemeCategory10[1], schemeCategory10[2]]
         this.render()
     }
@@ -32,13 +22,16 @@ export default class PieChart {
         const pieCalc = pie()
         const arcCalc = arc()
             .innerRadius(0)
-            .outerRadius((this.width - this.margin) * 0.65 * 0.5)
+            .outerRadius((this.size.width - this.size.margin) * 0.65 * 0.5)
         const binded = this.selection
             .selectAll(".pie")
             .data(pieCalc(this.values))
             .join("g")
             .attr("class", "pie")
-            .attr("transform", `translate(${this.width / 2}, ${this.width / 2 - this.margin})`)
+            .attr(
+                "transform",
+                `translate(${this.size.width / 2}, ${this.size.width / 2 - this.size.margin})`
+            )
 
         binded
             .append("path")

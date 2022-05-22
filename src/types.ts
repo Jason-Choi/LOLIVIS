@@ -57,3 +57,9 @@ export interface Attribute {
     name: string
     value: number
 }
+
+export interface Size {
+    width: number
+    height: number
+    margin: number
+}
