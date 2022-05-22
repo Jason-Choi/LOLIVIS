@@ -49,13 +49,13 @@ export default class PieChart {
         binded
             .append("text")
             .attr("class", "label")
-            .attr("transform", (d) => `translate(${arcCalc.centroid(d as any)})`)
+            .attr("transform", d => `translate(${arcCalc.centroid(d as any)})`)
             .attr("dy", ".35em")
             .attr("dx", "-1em")
             .attr("font-size", 24)
             .attr("fill", "white")
             .attr("font-weight", 600)
-            .text((d) => {
+            .text(d => {
                 return `${format(".1f")((d.value / this.valueLength) * 100)}%`
             })
     }

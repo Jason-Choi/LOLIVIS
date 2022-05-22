@@ -1,31 +1,31 @@
-body { 
-  height: 100vh;
-  margin: 0;
-  padding: 0;
+body {
+    height: 100vh;
+    margin: 0;
+    padding: 0;
 }
 
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  background-color: #212121;
-  height : 100vh;
-  color : white;
+    font-family: Avenir, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-align: center;
+    background-color: #212121;
+    height: 100vh;
+    color: white;
 }
 
-.section { 
-  min-height: 900px;
+.section {
+    min-height: 900px;
 }
 
-footer { 
-  color : white;
+footer {
+    color: white;
 }
 
-text { 
-  color : white;
+text {
+    color: white;
 }
 
-.nav-item { 
-  color : white;  
+.nav-item {
+    color: white;
 }

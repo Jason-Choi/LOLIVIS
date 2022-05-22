@@ -7,5 +7,5 @@ export default function Footer(): string {
             </div>
         </footer>
     </div>
-  `;
+  `
 }

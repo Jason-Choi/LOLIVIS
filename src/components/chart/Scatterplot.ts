@@ -28,11 +28,11 @@ export default class Scatterplot {
 
     render() {
         const x = scaleLinear()
-            .domain([0, max(this.values, (d) => d.x) as number])
+            .domain([0, max(this.values, d => d.x) as number])
             .range([0, this.width - this.margin * 2])
 
         const y = scaleLinear()
-            .domain([0, max(this.values, (d) => d.y) as number])
+            .domain([0, max(this.values, d => d.y) as number])
             .range([this.height - this.margin * 2, 0])
 
         // x axis
@@ -40,14 +40,14 @@ export default class Scatterplot {
             .append("g")
             .attr("transform", `translate(${this.margin}, ${this.height - this.margin})`)
             .call(axisBottom(x))
-            .call((g) => g.selectAll("text").attr("fill", "white").attr("font-size", "14px"))
+            .call(g => g.selectAll("text").attr("fill", "white").attr("font-size", "14px"))
 
         // y axis
         this.selection
             .append("g")
             .attr("transform", `translate(${this.margin}, ${this.margin})`)
             .call(axisLeft(y))
-            .call((g) => g.selectAll("text").attr("fill", "white").attr("font-size", "14px"))
+            .call(g => g.selectAll("text").attr("fill", "white").attr("font-size", "14px"))
 
         // dots
         this.selection
@@ -55,8 +55,8 @@ export default class Scatterplot {
             .data(this.values)
             .join("circle")
             .attr("class", "dot")
-            .attr("cx", (d) => x(d.x) + this.margin)
-            .attr("cy", (d) => y(d.y) + this.margin)
+            .attr("cx", d => x(d.x) + this.margin)
+            .attr("cy", d => y(d.y) + this.margin)
             .attr("r", 3)
             .attr("fill", this.color[0])
             .attr("opacity", 0.5)

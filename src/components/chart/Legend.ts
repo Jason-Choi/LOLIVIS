@@ -24,12 +24,7 @@ export class Legends {
     render() {
         this.selection
             .call(this.legend)
-            .call((g) =>
-                g
-                    .selectAll("text")
-                    .attr("fill", "white")
-                    .attr("font-size", "18px")
-            )
-            .call((g) => g.selectAll("rect").attr("opacity", 0.5))
+            .call(g => g.selectAll("text").attr("fill", "white").attr("font-size", "18px"))
+            .call(g => g.selectAll("rect").attr("opacity", 0.5))
     }
 }

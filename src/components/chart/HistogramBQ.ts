@@ -1,4 +1,13 @@
-import { axisBottom, axisLeft, bin, format, max, scaleLinear, schemeCategory10, Selection } from "d3"
+import {
+    axisBottom,
+    axisLeft,
+    bin,
+    format,
+    max,
+    scaleLinear,
+    schemeCategory10,
+    Selection,
+} from "d3"
 
 export default class HistogramBQ {
     selection: Selection<any, any, any, any>
@@ -40,12 +49,12 @@ export default class HistogramBQ {
         const isOrdinal = xTicks.length !== x.ticks().length
 
         const his = bin()
-            .value((d) => d)
+            .value(d => d)
             .domain(x.domain() as [number, number])
             .thresholds(xTicks)
 
         const y = scaleLinear()
-            .domain([0, max(his(this.valuesQ), (d) => d.length) as number])
+            .domain([0, max(his(this.valuesQ), d => d.length) as number])
             .range([this.height - this.margin * 2, 0])
 
         const hisDatas = his(this.valuesQ)
@@ -60,32 +69,22 @@ export default class HistogramBQ {
                     .tickValues(xTicks.slice(0, xTicks.length - (isOrdinal ? 1 : 0)))
                     .tickFormat(format("d"))
             )
-            .call((g) =>
+            .call(g =>
                 g
                     .selectAll(".tick")
                     .attr(
                         "transform",
-                        (d) => `translate(${x(d as number) + (isOrdinal ? xWidth / 2 : 0)}, 0)`
+                        d => `translate(${x(d as number) + (isOrdinal ? xWidth / 2 : 0)}, 0)`
                     )
             )
-            .call((g) =>
-                g
-                    .selectAll("text")
-                    .attr("fill", "white")
-                    .attr("font-size", "14px")
-            )
+            .call(g => g.selectAll("text").attr("fill", "white").attr("font-size", "14px"))
 
         // y axis
         this.selection
             .append("g")
             .attr("transform", `translate(${this.margin}, ${this.margin})`)
             .call(axisLeft(y))
-            .call((g) =>
-                g
-                    .selectAll("text")
-                    .attr("fill", "white")
-                    .attr("font-size", "14px")
-            )
+            .call(g => g.selectAll("text").attr("fill", "white").attr("font-size", "14px"))
 
         // True bars
         this.selection
@@ -95,10 +94,10 @@ export default class HistogramBQ {
             .attr("class", "bar")
             .attr(
                 "transform",
-                (d) => `translate(${x(d.x0 as number) + this.margin}, ${y(d.length) + this.margin})`
+                d => `translate(${x(d.x0 as number) + this.margin}, ${y(d.length) + this.margin})`
             )
-            .attr("width", (d) => x(d.x1 as number) - x(d.x0 as number))
-            .attr("height", (d) => {
+            .attr("width", d => x(d.x1 as number) - x(d.x0 as number))
+            .attr("height", d => {
                 return this.height - this.margin * 2 - y(d.length)
             })
             .attr("fill", this.color[0])
@@ -112,10 +111,10 @@ export default class HistogramBQ {
             .attr("class", "bar")
             .attr(
                 "transform",
-                (d) => `translate(${x(d.x0 as number) + this.margin}, ${y(d.length) + this.margin})`
+                d => `translate(${x(d.x0 as number) + this.margin}, ${y(d.length) + this.margin})`
             )
-            .attr("width", (d) => x(d.x1 as number) - x(d.x0 as number))
-            .attr("height", (d) => {
+            .attr("width", d => x(d.x1 as number) - x(d.x0 as number))
+            .attr("height", d => {
                 return this.height - this.margin * 2 - y(d.length)
             })
             .attr("fill", this.color[1])

@@ -62,7 +62,7 @@ export default class Heatmap {
             .attr("y", (_, i) => (y(i < 2 ? "False" : "True") as number) + this.margin)
             .attr("width", x.bandwidth())
             .attr("height", y.bandwidth())
-            .attr("fill", (d) => interpolateYlOrRd(d / this.valueLength))
+            .attr("fill", d => interpolateYlOrRd(d / this.valueLength))
 
         binded
             .join("text")
@@ -71,7 +71,7 @@ export default class Heatmap {
             .attr("dx", x.bandwidth() / 2)
             .attr("dy", y.bandwidth() / 2)
             .attr("text-anchor", "middle")
-            .text((d) => format(".1f")((d / this.valueLength) * 100) + "%")
+            .text(d => format(".1f")((d / this.valueLength) * 100) + "%")
 
         this.selection.selectAll("text").attr("font-size", 18).attr("font-weight", 600)
 

@@ -31,12 +31,16 @@ export class Main {
 
     render() {
         this.selection.selectAll("*").remove()
-        const values = this.selectedAttributes.map((attr) => this.getValues(attr))
+        const values = this.selectedAttributes.map(attr => this.getValues(attr))
         const attributeTypes = getAttributeTypes(this.selectedAttributes)
 
+        // Default Splash Screen
         if (this.selectedAttributes.length === 0) {
             new Splash(this.selection, width, height, margin)
-        } else if (this.selectedAttributes.length === 1) {
+        }
+
+        // Select One Attribute
+        else if (this.selectedAttributes.length === 1) {
             if (attributeTypes == "B") {
                 new PieChart(this.selection, values[0], width, height, margin)
                 new Legends(this.selection, this, [
@@ -46,7 +50,10 @@ export class Main {
             } else {
                 new Histogram(this.selection, values[0], width, height, margin)
             }
-        } else if (this.selectedAttributes.length === 2) {
+        }
+
+        // Select Two Attributes
+        else if (this.selectedAttributes.length === 2) {
             if (attributeTypes == "BB") {
                 new Heatmap(this.selection, values, width, height, margin)
             } else if (attributeTypes == "BQ" || attributeTypes == "QB") {
@@ -72,9 +79,7 @@ export class Main {
     selectAttribute(attributeName: string): string {
         let result = ""
         if (this.selectedAttributes.includes(attributeName)) {
-            this.selectedAttributes = this.selectedAttributes.filter(
-                (attr) => attr !== attributeName
-            )
+            this.selectedAttributes = this.selectedAttributes.filter(attr => attr !== attributeName)
             result = "removed"
         } else {
             if (this.selectedAttributes.length < 2) {
@@ -91,12 +96,12 @@ export class Main {
     }
 
     getValues(attributeName: string) {
-        return this.datas.map((data) => data[attributeName]).map((d) => Number(d))
+        return this.datas.map(data => data[attributeName]).map(d => Number(d))
     }
 }
 
 function getAttributeTypes(attributeNames: string[]) {
     return attributeNames
-        .map((attr) => (attr.includes("Wins") || attr.includes("First") ? "B" : "Q"))
+        .map(attr => (attr.includes("Wins") || attr.includes("First") ? "B" : "Q"))
         .join("")
 }
