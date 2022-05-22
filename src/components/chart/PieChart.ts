@@ -1,4 +1,5 @@
 import { arc, format, pie, schemeCategory10, Selection } from "d3"
+import { Size } from "../../types"
 
 export default class PieChart {
     selection: Selection<any, any, any, any>
