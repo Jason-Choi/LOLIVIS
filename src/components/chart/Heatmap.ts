@@ -1,4 +1,4 @@
-import { axisBottom, axisLeft, format, interpolateYlOrRd, scaleBand, Selection } from "d3"
+import { axisBottom, axisLeft, format, interpolateYlOrRd, scaleBand, schemeCategory10, Selection } from "d3"
 import { Size } from "../../types"
 
 export default class Heatmap {
@@ -81,7 +81,8 @@ export default class Heatmap {
             )
             .attr("width", x.bandwidth())
             .attr("height", y.bandwidth())
-            .attr("fill", d => interpolateYlOrRd(d / this.valueLength))
+            .attr("fill", schemeCategory10[1])
+            .attr("opacity", d => d / this.valueLength)
 
         binded
             .join("text")
@@ -101,6 +102,7 @@ export default class Heatmap {
             .attr("dx", x.bandwidth() / 2)
             .attr("dy", y.bandwidth() / 2)
             .attr("text-anchor", "middle")
+            .attr("fill", "white")
             .text(d => format(".1f")((d / this.valueLength) * 100) + "%")
 
         this.selection.selectAll("text").attr("font-size", 18).attr("font-weight", 600)
