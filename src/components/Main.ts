@@ -1,10 +1,11 @@
-import { DSVRowArray, Selection, select, schemeCategory10 } from "d3"
-import PieChart from "./chart/PieChart"
-import Histogram from "./chart/Histogram"
-import Scatterplot from "./chart/Scatterplot"
+import { DSVRowArray, schemeCategory10, select, Selection } from "d3"
 import Heatmap from "./chart/Heatmap"
+import Histogram from "./chart/Histogram"
 import HistogramBQ from "./chart/HistogramBQ"
 import { Legends } from "./chart/Legend"
+import PieChart from "./chart/PieChart"
+import Scatterplot from "./chart/Scatterplot"
+import { Splash } from "./chart/Splash"
 import { camelCaseToWords } from "./SideBar"
 
 const width = 880
@@ -29,62 +30,41 @@ export class Main {
     }
 
     render() {
+        this.selection.selectAll("*").remove()
+        const values = this.selectedAttributes.map((attr) => this.getValues(attr))
+        const attributeTypes = getAttributeTypes(this.selectedAttributes)
+
         if (this.selectedAttributes.length === 0) {
-            this.selection.selectAll("*").remove()
-            this.selection
-                .append("image")
-                .attr(
-                    "href",
-                    "https://raw.githubusercontent.com/Jason-Choi/LOLIVIS/master/logo.svg"
-                )
-                .attr("width", width / 2)
-                .attr("x", width / 4)
-                .attr("y", height / 2 - 200)
-
-            this.selection
-                .append("text")
-                .attr("x", width / 2)
-                .attr("y", height / 2 + 100)
-                .attr("font-size", "30px")
-                .attr("text-anchor", "middle")
-                .attr("font-weight", 600)
-                .attr("fill", "white")
-                .text("← Select one or two attributes to visualize! →")
-        } else {
-            this.selection.selectAll("*").remove()
-            const values = this.selectedAttributes.map((attr) => this.getValues(attr))
-            const attributeTypes = getAttributeTypes(this.selectedAttributes)
-
-            if (values.length === 2) {
-                if (attributeTypes == "BB") {
-                    new Heatmap(this.selection, values, width, height, margin)
-                } else if (attributeTypes == "BQ" || attributeTypes == "QB") {
-                    const tmpValues = [
-                        values[attributeTypes.indexOf("B")],
-                        values[attributeTypes.indexOf("Q")],
-                    ]
-                    new HistogramBQ(this.selection, tmpValues, width, height, margin)
-                    new Legends(this.selection, this, [
-                        `${camelCaseToWords(
-                            this.selectedAttributes[attributeTypes.indexOf("B")]
-                        )} False`,
-                        `${camelCaseToWords(
-                            this.selectedAttributes[attributeTypes.indexOf("B")]
-                        )} True`,
-                    ])
-                } else {
-                    new Scatterplot(this.selection, values, width, height, margin)
-                }
+            new Splash(this.selection, width, height, margin)
+        } else if (this.selectedAttributes.length === 1) {
+            if (attributeTypes == "B") {
+                new PieChart(this.selection, values[0], width, height, margin)
+                new Legends(this.selection, this, [
+                    `${camelCaseToWords(this.selectedAttributes[0])} False`,
+                    `${camelCaseToWords(this.selectedAttributes[0])} True`,
+                ])
             } else {
-                if (attributeTypes == "B") {
-                    new PieChart(this.selection, values[0], width, height, margin)
-                    new Legends(this.selection, this, [
-                        `${camelCaseToWords(this.selectedAttributes[0])} False`,
-                        `${camelCaseToWords(this.selectedAttributes[0])} True`,
-                    ])
-                } else {
-                    new Histogram(this.selection, values[0], width, height, margin)
-                }
+                new Histogram(this.selection, values[0], width, height, margin)
+            }
+        } else if (this.selectedAttributes.length === 2) {
+            if (attributeTypes == "BB") {
+                new Heatmap(this.selection, values, width, height, margin)
+            } else if (attributeTypes == "BQ" || attributeTypes == "QB") {
+                const tmpValues = [
+                    values[attributeTypes.indexOf("B")],
+                    values[attributeTypes.indexOf("Q")],
+                ]
+                new HistogramBQ(this.selection, tmpValues, width, height, margin)
+                new Legends(this.selection, this, [
+                    `${camelCaseToWords(
+                        this.selectedAttributes[attributeTypes.indexOf("B")]
+                    )} False`,
+                    `${camelCaseToWords(
+                        this.selectedAttributes[attributeTypes.indexOf("B")]
+                    )} True`,
+                ])
+            } else {
+                new Scatterplot(this.selection, values, width, height, margin)
             }
         }
     }
@@ -103,7 +83,6 @@ export class Main {
             } else result = "none"
         }
         this.render()
-        console.log(this.selectedAttributes)
         return result
     }
 
