@@ -7,6 +7,8 @@ LOLIVIS is web-based interactive visualization for League of Legends match data.
 ## Live Demo
 [git.jasonchoi.dev/LOLIVIS](https://git.jasonchoi.dev/LOLIVIS)
 
+(PC only, No mobile interfaces yet.)
+
 ## Implementation
 Implemented with
 [TypeScript](https://github.com/microsoft/TypeScript),
