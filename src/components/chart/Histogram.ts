@@ -39,7 +39,8 @@ export default class Histogram {
             .range([0, this.size.width - this.size.margin * 2])
 
         const xTicks = x.ticks().filter(Number.isInteger)
-        const isOrdinal = xTicks.length !== x.ticks().length
+
+        // BaronKills, DragonKills, InhibitorKills, TowerKills
 
         const his = bin()
             .value(d => d)
@@ -52,6 +53,10 @@ export default class Histogram {
 
         const hisDatas = his(this.values)
         const xWidth = x(hisDatas[0].x1 as number) - x(hisDatas[0].x0 as number)
+        const isOrdinal =
+            new Set(this.values).size === hisDatas.length ||
+            this.labels[0].includes("Inhibitor Kills")
+        console.log(this.labels)
 
         // x axis
         this.selection
@@ -106,7 +111,7 @@ export default class Histogram {
         // bars
         this.selection
             .selectAll(".bar")
-            .data(his(this.values))
+            .data(hisDatas)
             .join("rect")
             .attr("class", "bar")
             .attr("opacity", 0.5)

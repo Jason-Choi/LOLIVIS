@@ -1,14 +1,19 @@
-import { axisBottom, axisLeft, max, scaleLinear, Selection, schemeCategory10 } from "d3"
-import { Size } from "../../types";
+import { axisBottom, axisLeft, max, scaleLinear, Selection, schemeCategory10, format } from "d3"
+import { Size } from "../../types"
 
 export default class Scatterplot {
     selection: Selection<any, any, any, any>
     values: { x: number; y: number }[]
     size: Size
     color: readonly string[]
-    labels : string[]
+    labels: string[]
 
-    constructor(selection: Selection<any, any, any, any>, values: number[][], labels: string[], size: Size) {
+    constructor(
+        selection: Selection<any, any, any, any>,
+        values: number[][],
+        labels: string[],
+        size: Size
+    ) {
         this.selection = selection
         this.values = values[0].map((x, i) => {
             return { x: x, y: values[1][i] }
@@ -24,9 +29,13 @@ export default class Scatterplot {
             .domain([0, max(this.values, d => d.x) as number])
             .range([0, this.size.width - this.size.margin * 2])
 
+        const xTicks = x.ticks().filter(Number.isInteger)
+
         const y = scaleLinear()
             .domain([0, max(this.values, d => d.y) as number])
             .range([this.size.height - this.size.margin * 2, 0])
+
+        const yTicks = y.ticks().filter(Number.isInteger)
 
         // x axis
         this.selection
@@ -35,16 +44,24 @@ export default class Scatterplot {
                 "transform",
                 `translate(${this.size.margin}, ${this.size.height - this.size.margin})`
             )
-            .call(axisBottom(x))
+            .call(
+                axisBottom(x)
+                    .tickValues(xTicks)
+                    .tickFormat(d => format("d")(d))
+            )
             .call(g => g.selectAll("text").attr("fill", "white").attr("font-size", "14px"))
 
         // y axis
         this.selection
             .append("g")
             .attr("transform", `translate(${this.size.margin}, ${this.size.margin})`)
-            .call(axisLeft(y))
+            .call(
+                axisLeft(y)
+                    .tickValues(yTicks)
+                    .tickFormat(d => format("d")(d))
+            )
             .call(g => g.selectAll("text").attr("fill", "white").attr("font-size", "14px"))
-            
+
         //x axis label with label[0]
         this.selection
             .append("text")
@@ -65,8 +82,6 @@ export default class Scatterplot {
             .attr("font-size", "14px")
             .attr("fill", "white")
             .text(this.labels[1])
-
-
 
         // dots
         this.selection

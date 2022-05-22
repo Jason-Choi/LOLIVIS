@@ -44,7 +44,6 @@ export default class HistogramBQ {
             .range([0, this.size.width - this.size.margin * 2])
 
         const xTicks = x.ticks().filter(Number.isInteger)
-        const isOrdinal = xTicks.length !== x.ticks().length
 
         const his = bin()
             .value(d => d)
@@ -57,6 +56,9 @@ export default class HistogramBQ {
 
         const hisDatas = his(this.valuesQ)
         const xWidth = x(hisDatas[0].x1 as number) - x(hisDatas[0].x0 as number)
+        const isOrdinal =
+            new Set(this.valuesQ).size === hisDatas.length ||
+            this.labels[0].includes("Inhibitor Kills")
 
         // x axis
         this.selection
