@@ -9,14 +9,9 @@ LOLIVIS is web-based interactive visualization for League of Legends match data.
 <br>
 
 ## Live Demo
----
 [git.jasonchoi.dev/LOLIVIS](https://git.jasonchoi.dev/LOLIVIS)
 
-<br>
-
-
 ## Implementation
----
 Implemented with
 [TypeScript](https://github.com/microsoft/TypeScript),
 [Vite](https://github.com/vitejs/vite),
@@ -24,11 +19,7 @@ Implemented with
 [d3-legend](https://github.com/susielu/d3-legend),
 [Bootstrap](https://getbootstrap.com)
 
-
-<br>
-
 ## Development
----
 Install node.js and Yarn.
 
 Clone this Repository
@@ -45,10 +36,5 @@ yarn dev
 
 \* Note that you do not have to install dependencies. All dependencies are uploaded in repository using ZipFS. 
 
-<br>
-
 ## Acknolowgement
----
 [Dataset by Minyoung Shin and Riot Games](https://www.kaggle.com/datasets/gyejr95/league-of-legends-challenger-ranked-games2020)
-
-<br>
